@@ -4,9 +4,10 @@ namespace Day03
 {
     class Program
     {
+        static bool isRunning = true;
+
         static void Main(string[] args)
         {
-            bool isRunning = true;
             int[,] map =
             {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -17,7 +18,7 @@ namespace Day03
                 {1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
                 {1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
                 {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 1, 0, 0, 2, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
             }; //10 x 10 Array
 
@@ -45,34 +46,40 @@ namespace Day03
 
         static int Process(string key, ref int playerX, ref int playerY, int[,] map)
         {
-            //여기는 처리 
+            //여기는 주인공 이동 처리
             if (key == "UpArrow")
             {
-                if (map[playerY-1, playerX] == 0)
+                if (map[playerY-1, playerX] != 1)
                 {
                     playerY--;
                 }
             }
             else if (key == "DownArrow")
             {
-                if (map[playerY + 1, playerX] == 0)
+                if (map[playerY + 1, playerX] != 1)
                 {
                     playerY++;
                 }
             }
             else if (key == "LeftArrow")
             {
-                if (map[playerY, playerX-1] == 0)
+                if (map[playerY, playerX-1] != 1)
                 {
                     playerX--;
                 }
             }
             else if (key == "RightArrow")
             {
-                if (map[playerY, playerX + 1] == 0)
+                if (map[playerY, playerX + 1] != 1)
                 {
                     playerX++;
                 }
+            }
+
+            //게임 로직 처리
+            if (map[playerY, playerX] == 2)
+            {
+                isRunning = false;
             }
 
             return 0;
@@ -95,7 +102,15 @@ namespace Day03
                     }
                     else if (playerX == x && playerY == y)
                     { //주인공 위치에는 P를 출력
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("P");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else if (_map[y, x] == 2)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("G");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
                     { //맵데이터에 0 이면 공백 출력
