@@ -11,13 +11,13 @@ namespace Day03
             {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
+                {1, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+                {1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+                {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
             }; //10 x 10 Array
 
@@ -27,23 +27,52 @@ namespace Day03
             while (isRunning)
             {
                 string key = Input();
-                Process(key);
+                Process(key, ref playerX, ref playerY, map);
                 Clear();
+
+                //Console.WriteLine(key.ToString());
+
                 Render(map, playerX, playerY);
             }
         }
 
         static string Input()
         {
-            return Console.ReadLine();
+            ConsoleKeyInfo info =  Console.ReadKey();
+
+            return info.Key.ToString();
         }
 
-        static int Process(string key)
+        static int Process(string key, ref int playerX, ref int playerY, int[,] map)
         {
             //여기는 처리 
-            if ( key == "u")
+            if (key == "UpArrow")
             {
-
+                if (map[playerY-1, playerX] == 0)
+                {
+                    playerY--;
+                }
+            }
+            else if (key == "DownArrow")
+            {
+                if (map[playerY + 1, playerX] == 0)
+                {
+                    playerY++;
+                }
+            }
+            else if (key == "LeftArrow")
+            {
+                if (map[playerY, playerX-1] == 0)
+                {
+                    playerX--;
+                }
+            }
+            else if (key == "RightArrow")
+            {
+                if (map[playerY, playerX + 1] == 0)
+                {
+                    playerX++;
+                }
             }
 
             return 0;
