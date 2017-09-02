@@ -18,12 +18,17 @@ namespace Day03
                 {1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
                 {1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
                 {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 1, 0, 0, 2, 1},
+                {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
             }; //10 x 10 Array
 
             int playerX = 1;
             int playerY = 1;
+
+            Random gRandom = new Random();
+            int goalX = gRandom.Next(1, 8);
+            int goalY = gRandom.Next(1, 8);
+            map[goalY, goalX] = 2;
 
             while (isRunning)
             {
