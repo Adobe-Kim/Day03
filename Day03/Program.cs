@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Day03
 {
@@ -10,63 +6,76 @@ namespace Day03
     {
         static void Main(string[] args)
         {
-            int a = 3;
-            int b = 5;
+            bool isRunning = true;
+            int[,] map =
+            {
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+            }; //10 x 10 Array
 
-            float c = 3.5f;
-            float d = 5.3f;
+            int playerX = 1;
+            int playerY = 1;
 
-            Swap(a, b);
-
-            Console.WriteLine(a);
-            Console.WriteLine(b);
-
-            Swap(ref c, ref d);
-
-            Console.WriteLine(c);
-            Console.WriteLine(d);
+            while (isRunning)
+            {
+                string key = Input();
+                Process(key);
+                Clear();
+                Render(map, playerX, playerY);
+            }
         }
 
-        /// <summary>
-        /// call by Value
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        static void Swap(int a, int b)
+        static string Input()
         {
-            int c = 0;
-
-            c = a;
-            a = b;
-            b = c;
+            return Console.ReadLine();
         }
 
-        /// <summary>
-        /// Call by reference
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        static void Swap(ref int a, ref int b)
+        static int Process(string key)
         {
-            int c = 0;
+            //여기는 처리 
+            if ( key == "u")
+            {
 
-            c = a; //main->a
-            a = b; //main->b
-            b = c;
+            }
+
+            return 0;
         }
 
-        /// <summary>
-        /// Call by Reference float Type
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        static void Swap(ref float a, ref float b)
+        static void Clear()
         {
-            float c = 0;
+            Console.Clear();
+        }
 
-            c = a; //main->a
-            a = b; //main->b
-            b = c;
+        static void Render(int[,] _map, int playerX, int playerY)
+        {
+            for (int y = 0; y < 10; ++y)
+            {
+                for (int x = 0; x < 10; ++x)
+                {
+                    if (_map[y, x] == 1)
+                    { //맵 데이터에 1이면 출력
+                        Console.Write(_map[y, x]);
+                    }
+                    else if (playerX == x && playerY == y)
+                    { //주인공 위치에는 P를 출력
+                        Console.Write("P");
+                    }
+                    else
+                    { //맵데이터에 0 이면 공백 출력
+                        Console.Write(" ");
+                    }
+                    Console.Write(" "); // 이쁘게 하기 위해서 출력
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
