@@ -5,6 +5,8 @@ namespace Day03
     class Program
     {
         static bool isRunning = true;
+        static int monsterX = 1;
+        static int monsterY = 1;
 
         static void Main(string[] args)
         {
@@ -25,26 +27,30 @@ namespace Day03
             int playerX = 1;
             int playerY = 1;
 
+
+
+            //목적지 랜덤 추가
             Random gRandom = new Random();
-            int goalX = gRandom.Next(1, 8);
-            int goalY = gRandom.Next(1, 8);
+            int goalX = gRandom.Next(1, 9);
+            int goalY = gRandom.Next(1, 9);
             map[goalY, goalX] = 2;
+
+            //적 시작위 설정
+            monsterX = gRandom.Next(1, 9);
+            monsterY = gRandom.Next(1, 9);
 
             while (isRunning)
             {
                 string key = Input();
                 Process(key, ref playerX, ref playerY, map);
                 Clear();
-
-                //Console.WriteLine(key.ToString());
-
                 Render(map, playerX, playerY);
             }
         }
 
         static string Input()
         {
-            ConsoleKeyInfo info =  Console.ReadKey();
+            ConsoleKeyInfo info = Console.ReadKey();
 
             return info.Key.ToString();
         }
@@ -54,7 +60,7 @@ namespace Day03
             //여기는 주인공 이동 처리
             if (key == "UpArrow")
             {
-                if (map[playerY-1, playerX] != 1)
+                if (map[playerY - 1, playerX] != 1)
                 {
                     playerY--;
                 }
@@ -68,7 +74,7 @@ namespace Day03
             }
             else if (key == "LeftArrow")
             {
-                if (map[playerY, playerX-1] != 1)
+                if (map[playerY, playerX - 1] != 1)
                 {
                     playerX--;
                 }
@@ -81,8 +87,50 @@ namespace Day03
                 }
             }
 
+
+            //적 움직임 처리
+            Random mRandom = new Random();
+            int direction = mRandom.Next(1, 5);
+
+            switch (direction)
+            {
+                case 1: //Up
+                    if (map[monsterY - 1, monsterX] != 1)
+                    {
+                        monsterY--;
+                    }
+                    break;
+
+                case 2: //Down
+                    if (map[monsterY + 1, monsterX] != 1)
+                    {
+                        monsterY++;
+                    }
+                    break;
+
+                case 3: //Left
+                    if (map[monsterY, monsterX - 1] != 1)
+                    {
+                        monsterX--;
+                    }
+                    break;
+
+                case 4: //Right
+                    if (map[monsterY, monsterX + 1] != 1)
+                    {
+                        monsterX++;
+                    }
+                    break;
+            }
+
             //게임 로직 처리
             if (map[playerY, playerX] == 2)
+            {
+                isRunning = false;
+            }
+
+            //적과 마주치면 죽는다
+            if (playerX == monsterX && playerY == monsterY)
             {
                 isRunning = false;
             }
@@ -117,10 +165,18 @@ namespace Day03
                         Console.Write("G");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
+                    else if (monsterX == x && monsterY == y)
+                    { //적 위치에는 M를 출력
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("M");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
                     else
                     { //맵데이터에 0 이면 공백 출력
                         Console.Write(" ");
                     }
+
+
                     Console.Write(" "); // 이쁘게 하기 위해서 출력
                 }
                 Console.WriteLine();
